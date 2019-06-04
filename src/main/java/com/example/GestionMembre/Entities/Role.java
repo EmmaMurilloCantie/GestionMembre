@@ -22,19 +22,25 @@ public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String titre;
+    public enum Roles{
+        Membre,
+        TeamLeader,
+        Secrétariat,
+        Président
+    };
+    private Roles titre;
 
     public Role(){}
     
-    public Role(String titre) {
+    public Role(Roles titre) {
         this.titre = titre;
     }
 
-    public String getTitre() {
+    public Roles getTitre() {
         return titre;
     }
 
-    public void setTitre(String titre) {
+    public void setTitre(Roles titre) {
         this.titre = titre;
     }
 

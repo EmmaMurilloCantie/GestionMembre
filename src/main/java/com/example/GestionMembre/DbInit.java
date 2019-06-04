@@ -8,6 +8,7 @@ package com.example.GestionMembre;
 import com.example.GestionMembre.Entities.EnMarche;
 import com.example.GestionMembre.Entities.Membre;
 import com.example.GestionMembre.Entities.Role;
+import com.example.GestionMembre.Entities.Role.Roles;
 import com.example.GestionMembre.Repositories.RepoEnMarche;
 import com.example.GestionMembre.Repositories.RepoMembre;
 import com.example.GestionMembre.Repositories.RepoRole;
@@ -39,10 +40,10 @@ public class DbInit implements CommandLineRunner {
         this.rm.deleteAll();
         this.rem.deleteAll();
 
-        Role rP = new Role("President");
-        Role rTL = new Role("TeamLeader");
-        Role rS = new Role("Secrétaire");
-        Role rM = new Role("Membre");
+        Role rP = new Role(Roles.Président);
+        Role rTL = new Role(Roles.TeamLeader);
+        Role rS = new Role(Roles.Secrétariat);
+        Role rM = new Role(Roles.Membre);
         Membre m1 = new Membre("pasero","hugo","mail@mail","huto96","huto96","","add",rM);
         Membre m2 = new Membre("murillo-cantie","emma","mail2@mail2","mcEmma","mcEmma","","nenuphars",rS);
         Membre m3 = new Membre("roca","marie","mail3@mail3","rocaca","rocaca","","la vache",rP);

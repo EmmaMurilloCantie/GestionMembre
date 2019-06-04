@@ -5,12 +5,15 @@
  */
 package com.example.GestionMembre.Service;
 
+import com.example.GestionMembre.DbInit;
 import com.example.GestionMembre.Entities.EnMarche;
 import com.example.GestionMembre.Entities.Membre;
 import com.example.GestionMembre.Entities.Role;
+import com.example.GestionMembre.Entities.Role.Roles;
 import com.example.GestionMembre.Repositories.RepoEnMarche;
 import com.example.GestionMembre.Repositories.RepoMembre;
 import com.example.GestionMembre.Repositories.RepoRole;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +47,7 @@ public class GestionMembre {
                 return false;
             }
         }
+        ajoutRole(membre, Roles.Membre);
         rm.save(membre);
         return true;
         
@@ -64,6 +68,9 @@ public class GestionMembre {
         m.setNumLicence(membre.getNumLicence());
         m.setNiveau(membre.getNiveau());
         m.setMontant(membre.getMontant());
+        //m.setRole() = new ArrayList<>();
+        for(Role r : membre.getRole())
+            ajoutRole(membre, r.getTitre());
         rm.save(m);
     }
     
@@ -143,8 +150,24 @@ public class GestionMembre {
     }
     
     
-    public void passageTeamLeader (){
-        //@TODO
+    public Membre ajoutRole (Membre membre, Roles r){
+        boolean estPresent = false;
+        for(Role rCourant : membre.getRole()){
+            if(rCourant.getTitre() == r)
+                estPresent = true;
+        }
+        if(!estPresent){
+            ArrayList<Role> roles = new ArrayList<>();
+            //roles.add(DbInit.rM);
+            Iterator role = rr.findAll().iterator();
+            while(role.hasNext()){
+                Role rCourant = (Role) role.next();
+                if(rCourant.getTitre().equals(r))
+                    roles.add(rCourant);
+            }
+            membre.setRole(roles);
+        }
+        return membre;
     }
     
     //STATISTIQUES
