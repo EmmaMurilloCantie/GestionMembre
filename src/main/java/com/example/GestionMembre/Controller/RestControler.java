@@ -52,7 +52,7 @@ public class RestControler {
        return gm.connexion(membreAconnecter.getPseudo(), membreAconnecter.getMdp());
     }
     
-    //MEMBRE & SECRETAIRE
+    //MEMBRE
     @RequestMapping(value="/modifier", method = RequestMethod.PATCH)
     public void modifier (@RequestBody Membre membreMaJ){
         gm.modifierM(membreMaJ);
@@ -62,6 +62,12 @@ public class RestControler {
     @RequestMapping(value="/validation/{id}", method = RequestMethod.GET)
     public Date validerPaiement (@PathVariable Long id){
         return gm.validerPaiement(id);
+    }
+    
+    //SECRETAIRE
+    @RequestMapping(value = "/certificat/{id}", method = RequestMethod.GET)
+    public Date validerCertif(@PathVariable Long id) {
+        return gm.validerCertif(id);
     }
     
     //PRESIDENT @TOASK

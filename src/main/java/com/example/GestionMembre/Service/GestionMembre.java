@@ -61,7 +61,6 @@ public class GestionMembre {
         //m.setPseudo(membre.getPseudo);
         m.setMdp(membre.getMdp());
         m.setAdresse(membre.getVille(), membre.getPays());
-        m.setDatecertif(membre.getDatecertif());
         m.setNumLicence(membre.getNumLicence());
         m.setNiveau(membre.getNiveau());
         m.setMontant(membre.getMontant());
@@ -212,6 +211,12 @@ public class GestionMembre {
         return montant;
     }
     
+    public Date validerCertif (Long id){
+        Membre m = (Membre) rm.findById(id).get();
+        m.setDatecertif(new Date());
+        rm.save(m);
+        return m.getDatecertif();
+    }
     
     
     /*public void inscription (String nom, String prenom, String mail, String pseudo, String mdp, String adresse){
