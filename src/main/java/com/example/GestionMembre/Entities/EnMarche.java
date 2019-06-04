@@ -31,6 +31,11 @@ public class EnMarche implements Serializable {
         this.debutEx = new Date();
     }
     
+    public EnMarche(float tresor) {
+        this.tresor = tresor;
+        this.debutEx = new Date();
+    }
+    
     public Long getId() {
         return id;
     }

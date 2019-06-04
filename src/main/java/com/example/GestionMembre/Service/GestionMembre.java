@@ -30,7 +30,11 @@ public class GestionMembre {
     @Autowired
     RepoRole rr;
     
-    
+    /*
+    Créer un membre
+    @param membre 
+    On vérifie que le speudo n'est pas déjà utilisé
+    */
     public boolean inscription (Membre membre){
         Iterator membres = rm.findAll().iterator();
         Membre mCourant = new Membre();
@@ -45,6 +49,10 @@ public class GestionMembre {
         
     }
     
+    /*
+    Modifier un membre
+    @param membre 
+    */
     public void modifierM (Membre membre){
         Membre m = (Membre) rm.findById(membre.getId()).get();
         m.setNom(membre.getNom());
@@ -52,7 +60,7 @@ public class GestionMembre {
         m.setMail(membre.getMail());
         //m.setPseudo(membre.getPseudo);
         m.setMdp(membre.getMdp());
-        m.setAdresse(membre.getAdress());
+        m.setAdresse(membre.getVille(), membre.getPays());
         m.setDatecertif(membre.getDatecertif());
         m.setNumLicence(membre.getNumLicence());
         m.setNiveau(membre.getNiveau());
@@ -60,16 +68,32 @@ public class GestionMembre {
         rm.save(m);
     }
     
+    /*
+    Get de la liste des membres
+    @return Iterator 
+    */
     public Iterator membres (){
         Iterator membres = rm.findAll().iterator();
         return membres;
     }
     
+    /*
+    Get d'un membre
+    @param id d'un Membre
+    @return Membre 
+    */
     public Membre membre (Long id){
         Membre m = (Membre) rm.findById(id).get();
         return m;
     }
     
+    /*
+    Connexion à son compte
+    @param pseudo
+    @param mdp
+    Vérifie le mdp et le pseudo
+    @return Membre 
+    */
     public Membre connexion (String pseudo, String mdp){
         Iterator membres = rm.findAll().iterator();
         Membre mCourant = new Membre();
@@ -85,7 +109,11 @@ public class GestionMembre {
         return null;
     }
     
-    public void validerPaiement (Long id){
+    /*
+    Valider le paiement
+    @param id d'un Membre
+    */
+    public Date validerPaiement (Long id){
         Membre m = (Membre) rm.findById(id).get();
         Iterator enMarche = rem.findAll().iterator();
         EnMarche app = null;
@@ -95,6 +123,7 @@ public class GestionMembre {
         m.setValidPaiement(new Date());
         rm.save(m);
         rem.save(app);
+        return m.getValidPaiement();
     }
     
     public void invaliderPaiement (){

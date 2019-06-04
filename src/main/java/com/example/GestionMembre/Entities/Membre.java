@@ -26,34 +26,6 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class Membre implements Serializable {
-
-    class Adress {
-        private String ville;
-        private String pays;
-        
-        public Adress() {}
-
-        public Adress(String ville, String pays) {
-            this.ville = ville;
-            this.pays = pays;
-        }
-
-        public String getVille() {
-            return ville;
-        }
-
-        public void setVille(String ville) {
-            this.ville = ville;
-        }
-
-        public String getPays() {
-            return pays;
-        }
-
-        public void setPays(String pays) {
-            this.pays = pays;
-        }  
-    } 
     
     private static final long serialVersionUID = 1L;
     @Id
@@ -68,6 +40,7 @@ public class Membre implements Serializable {
     
     private String mdp;
     
+    @Embedded
     private Adress adresse;
     
     private Date datecertif;
@@ -110,12 +83,21 @@ public class Membre implements Serializable {
         this.nom = nom;
     }
 
-    public Adress getAdress() {
-        return adresse;
+    public String afficheAdress() {
+        return adresse.getVille() + " en " + adresse.getPays();
+    }
+    
+    public String getVille(){
+        return adresse.getVille();
+    }
+    
+    public String getPays(){
+        return adresse.getPays();
     }
 
-    public void setAdresse(Adress adresse) {
-        this.adresse = adresse;
+    public void setAdresse(String ville, String pays) {
+        this.adresse.setPays(pays);
+        this.adresse.setVille(ville);
     }
     
     public String getPrenom() {

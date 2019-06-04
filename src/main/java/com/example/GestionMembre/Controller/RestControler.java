@@ -60,8 +60,8 @@ public class RestControler {
     
     //SECRETAIRE
     @RequestMapping(value="/validation/{id}", method = RequestMethod.GET)
-    public void validerPaiement (@PathVariable Long id){
-        gm.validerPaiement(id);
+    public Date validerPaiement (@PathVariable Long id){
+        return gm.validerPaiement(id);
     }
     
     //PRESIDENT @TOASK
