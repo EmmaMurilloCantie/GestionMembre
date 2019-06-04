@@ -15,6 +15,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,7 +25,7 @@ import org.springframework.stereotype.Service;
  * @author emma
  */
 @Service
-public class GestionMembre {
+public class GestionMembre implements UserDetailsService {
     @Autowired
     RepoMembre rm;
     @Autowired
@@ -30,11 +33,18 @@ public class GestionMembre {
     @Autowired
     RepoRole rr;
     
-    /*
-    Créer un membre
-    @param membre 
-    On vérifie que le speudo n'est pas déjà utilisé
-    */
+    @Autowired
+    public GestionMembre(RepoMembre rm) {
+        this.rm = rm;
+    }
+    
+    
+    /**
+     * Permet à une personne de s'inscrire sur le site et de devenir membre
+     * @param membre objet membre 
+     * @return false -  si le login est déjà utilisé / le membre n'est pas créé
+     *         true  -  login unique / création du nouveau membre
+     */
     public boolean inscription (Membre membre){
         Iterator membres = rm.findAll().iterator();
         Membre mCourant = new Membre();
@@ -49,51 +59,48 @@ public class GestionMembre {
         
     }
     
-    /*
-    Modifier un membre
-    @param membre 
-    */
+    /**
+     * Permet à un membre de modifier les informations personnels de son profil
+     *  Nom; Prénom; Mail; Mdp; Adresse
+     * @param membre objet membre à modifier
+     */
     public void modifierM (Membre membre){
         Membre m = (Membre) rm.findById(membre.getId()).get();
         m.setNom(membre.getNom());
         m.setPrenom(membre.getPrenom());
         m.setMail(membre.getMail());
-        //m.setPseudo(membre.getPseudo);
         m.setMdp(membre.getMdp());
         m.setAdresse(membre.getVille(), membre.getPays());
-        m.setDatecertif(membre.getDatecertif());
-        m.setNumLicence(membre.getNumLicence());
-        m.setNiveau(membre.getNiveau());
-        m.setMontant(membre.getMontant());
         rm.save(m);
     }
     
-    /*
-    Get de la liste des membres
-    @return Iterator 
-    */
+    /**
+     * Renvoie la liste des membres enregistrer dans la base
+     * @return Iterator : la liste des membres
+     */
     public Iterator membres (){
         Iterator membres = rm.findAll().iterator();
         return membres;
     }
     
-    /*
-    Get d'un membre
-    @param id d'un Membre
-    @return Membre 
-    */
+    /**
+     * Renvoie le membre qui correspond à l'ID en paramètre
+     * @param id Long : Id d'un membre
+     * @return Objet Membre
+     */
     public Membre membre (Long id){
         Membre m = (Membre) rm.findById(id).get();
         return m;
     }
     
-    /*
-    Connexion à son compte
-    @param pseudo
-    @param mdp
-    Vérifie le mdp et le pseudo
-    @return Membre 
-    */
+    /**
+     * Permet à l'utilisateur de se connecter et d'accéder à son compte
+     * on vérifie la correspondance du login / mdp
+     * @param pseudo : pseudo du membre
+     * @param mdp : mdp du membre
+     * @return objet Membre qui souhaite se connecter
+     *         / ou null si le mdp et/ou login erroné
+     */
     public Membre connexion (String pseudo, String mdp){
         Iterator membres = rm.findAll().iterator();
         Membre mCourant = new Membre();
@@ -109,10 +116,11 @@ public class GestionMembre {
         return null;
     }
     
-    /*
-    Valider le paiement
-    @param id d'un Membre
-    */
+    /**
+     * Valider le paiement
+     * @param id : id d'un membre 
+     * @return Date de validation de paiement
+     */
     public Date validerPaiement (Long id){
         Membre m = (Membre) rm.findById(id).get();
         Iterator enMarche = rem.findAll().iterator();
@@ -149,10 +157,18 @@ public class GestionMembre {
     }
     
     //STATISTIQUES
+    /**
+     * Compte le nombre de personnes inscrites
+     * @return int le nombre de personnes
+     */
     public int nbMembres(){
         return (int) rm.count();
     }
     //STATISTIQUES
+    /**
+     * Compte le nombre de Team Leader 
+     * @return int le nombre de Team Leader
+     */
     public int nbTL(){
         Iterator membres = rm.findAll().iterator();
         int nbTL = 0;
@@ -170,6 +186,10 @@ public class GestionMembre {
         
     }
     //STATISTIQUES
+    /**
+     * Calcule le montant des cottisations prévues
+     * @return float le montant des cottisations prévues
+     */
     public float montantCottisationsPrevues(){
         Iterator membres = rm.findAll().iterator();
         float montant = 0F;
@@ -183,6 +203,10 @@ public class GestionMembre {
         
     }
     //STATISTIQUES
+    /**
+     * Calcule le montant des cottisations reglees
+     * @return float le montent des cottisations reglees
+     */
     public float montantCottisationReglees(){
         Iterator membres = rm.findAll().iterator();
         float montant = 0F;
@@ -258,5 +282,10 @@ public class GestionMembre {
         rm.save(m);
     }
     */
+
+    @Override
+    public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
