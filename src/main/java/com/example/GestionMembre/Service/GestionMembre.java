@@ -77,8 +77,6 @@ public class GestionMembre {
         m.setMontant(membre.getMontant());
         //m.setRole() = new ArrayList<>();
         for(Role r : membre.getRole()){
-            System.out.println("com.example.GestionMembre.Service.GestionMembre.modifierM()"+r);
-            System.out.println("com.example.GestionMembre.Service.GestionMembre.modifierM()"+r.getTitre());
             ajoutRole(m, r.getTitre());
         }
         rm.save(m);
@@ -164,7 +162,6 @@ public class GestionMembre {
         boolean estPresent = false;
         for(Role rCourant : membre.getRole()){
             if(rCourant.getTitre() == r){
-                System.out.println("com.example.GestionMembre.Service.GestionMembre.ajoutRole() gros caca");
                 estPresent = true;
             }
         }

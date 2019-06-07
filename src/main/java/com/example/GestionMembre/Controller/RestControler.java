@@ -44,7 +44,6 @@ public class RestControler {
     @RequestMapping(value="/subscribe", method = RequestMethod.POST)
     public void subscribe (@RequestBody Membre membreAcreer){
         gm.inscription(membreAcreer);
-        System.out.println("com.example.GestionMembre.Controller.RestControler.subscribe()"+membreAcreer);
     }
     
     //MEMBRE
