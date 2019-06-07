@@ -19,6 +19,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 /**
  *
@@ -40,14 +42,19 @@ public class Membre implements Serializable {
     
     private String mdp;
     
-    @Embedded
-    private Adress adresse;
-    
+    //@A VERIFIER
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date datecertif;
+    
     private int numLicence;
+    
     private float niveau;
+    
     private Date validPaiement;
+    
     private float montant;
+    
+    private String pays, ville;
     
     @ManyToMany //(cascade=CascadeType.DETACH)
     private List<Role> role;
@@ -61,7 +68,8 @@ public class Membre implements Serializable {
         this.mail = mail;
         this.pseudo = pseudo;
         this.mdp = mdp;
-        this.adresse = new Adress(pays, ville);
+        this.pays = pays;
+        this.ville = ville;
         this.validPaiement = null;
         this.role = new ArrayList<Role>();
         this.role.add(role);
@@ -81,23 +89,6 @@ public class Membre implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public String afficheAdress() {
-        return adresse.getVille() + " en " + adresse.getPays();
-    }
-    
-    public String getVille(){
-        return adresse.getVille();
-    }
-    
-    public String getPays(){
-        return adresse.getPays();
-    }
-
-    public void setAdresse(String ville, String pays) {
-        this.adresse.setPays(pays);
-        this.adresse.setVille(ville);
     }
     
     public String getPrenom() {
@@ -162,6 +153,22 @@ public class Membre implements Serializable {
 
     public void setMontant(float montant) {
         this.montant = montant;
+    }
+
+    public String getPays() {
+        return pays;
+    }
+
+    public void setPays(String pays) {
+        this.pays = pays;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
     }
 
     public Long getId() {

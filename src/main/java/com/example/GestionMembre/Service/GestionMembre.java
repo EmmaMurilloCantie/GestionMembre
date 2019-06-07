@@ -40,9 +40,11 @@ public class GestionMembre {
     */
     public boolean inscription (Membre membre){
         Iterator membres = rm.findAll().iterator();
+        System.out.println("com.example.GestionMembre.Service.GestionMembre.inscription()"+membre.getVille());
         Membre mCourant = new Membre();
         while (membres.hasNext()){
             mCourant = (Membre) membres.next();
+            System.out.println("com.example.GestionMembre.Service.GestionMembre.inscription()"+mCourant);
             if(mCourant.getPseudo().equals(membre.getPseudo())){
                 return false;
             }
@@ -71,7 +73,8 @@ public class GestionMembre {
         m.setMail(membre.getMail());
         //m.setPseudo(membre.getPseudo);
         m.setMdp(membre.getMdp());
-        m.setAdresse(membre.getVille(), membre.getPays());
+        m.setVille(membre.getVille());
+        m.setVille(membre.getPays());
         m.setNumLicence(membre.getNumLicence());
         m.setNiveau(membre.getNiveau());
         m.setMontant(membre.getMontant());
