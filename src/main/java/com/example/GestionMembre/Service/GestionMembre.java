@@ -47,7 +47,14 @@ public class GestionMembre {
                 return false;
             }
         }
-        ajoutRole(membre, Roles.Membre);
+        ArrayList<Role> roles = new ArrayList<>();
+        Iterator role = rr.findAll().iterator();
+        while(role.hasNext()){
+            Role rCourant = (Role) role.next();
+            if(rCourant.getTitre().equals(Roles.Membre))
+                roles.add(rCourant);
+        }
+        membre.setRole(roles);
         rm.save(membre);
         return true;
         
@@ -152,6 +159,8 @@ public class GestionMembre {
     
     public Membre ajoutRole (Membre membre, Roles r){
         boolean estPresent = false;
+        System.out.println("com.example.GestionMembre.Service.GestionMembre.ajoutRole()"+membre);
+        System.out.println("com.example.GestionMembre.Service.GestionMembre.ajoutRole()"+r);
         for(Role rCourant : membre.getRole()){
             if(rCourant.getTitre() == r)
                 estPresent = true;
