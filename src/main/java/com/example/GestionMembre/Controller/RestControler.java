@@ -47,7 +47,7 @@ public class RestControler {
     }
     
     //MEMBRE
-    @RequestMapping(value="/login", method = RequestMethod.GET)
+    @RequestMapping(value="/login", method = RequestMethod.POST)
     public Membre login (@RequestBody Membre membreAconnecter){
        return gm.connexion(membreAconnecter.getPseudo(), membreAconnecter.getMdp());
     }
