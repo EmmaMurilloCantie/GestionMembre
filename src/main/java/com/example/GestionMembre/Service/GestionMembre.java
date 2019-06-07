@@ -5,7 +5,6 @@
  */
 package com.example.GestionMembre.Service;
 
-import com.example.GestionMembre.DbInit;
 import com.example.GestionMembre.Entities.EnMarche;
 import com.example.GestionMembre.Entities.Membre;
 import com.example.GestionMembre.Entities.Role;
@@ -40,11 +39,9 @@ public class GestionMembre {
     */
     public boolean inscription (Membre membre){
         Iterator membres = rm.findAll().iterator();
-        System.out.println("com.example.GestionMembre.Service.GestionMembre.inscription()"+membre.getVille());
         Membre mCourant = new Membre();
         while (membres.hasNext()){
             mCourant = (Membre) membres.next();
-            System.out.println("com.example.GestionMembre.Service.GestionMembre.inscription()"+mCourant);
             if(mCourant.getPseudo().equals(membre.getPseudo())){
                 return false;
             }
@@ -79,8 +76,11 @@ public class GestionMembre {
         m.setNiveau(membre.getNiveau());
         m.setMontant(membre.getMontant());
         //m.setRole() = new ArrayList<>();
-        for(Role r : membre.getRole())
-            ajoutRole(membre, r.getTitre());
+        for(Role r : membre.getRole()){
+            System.out.println("com.example.GestionMembre.Service.GestionMembre.modifierM()"+r);
+            System.out.println("com.example.GestionMembre.Service.GestionMembre.modifierM()"+r.getTitre());
+            ajoutRole(m, r.getTitre());
+        }
         rm.save(m);
     }
     
@@ -162,14 +162,14 @@ public class GestionMembre {
     
     public Membre ajoutRole (Membre membre, Roles r){
         boolean estPresent = false;
-        System.out.println("com.example.GestionMembre.Service.GestionMembre.ajoutRole()"+membre);
-        System.out.println("com.example.GestionMembre.Service.GestionMembre.ajoutRole()"+r);
         for(Role rCourant : membre.getRole()){
-            if(rCourant.getTitre() == r)
+            if(rCourant.getTitre() == r){
+                System.out.println("com.example.GestionMembre.Service.GestionMembre.ajoutRole() gros caca");
                 estPresent = true;
+            }
         }
         if(!estPresent){
-            ArrayList<Role> roles = new ArrayList<>();
+            List<Role> roles = membre.getRole();
             //roles.add(DbInit.rM);
             Iterator role = rr.findAll().iterator();
             while(role.hasNext()){
