@@ -54,10 +54,12 @@ public class DbInit implements CommandLineRunner {
         //ArrayList<Role> roles = new ArrayList<>();
         //roles.add(rM);
         //m1.setRole(roles);
-        this.rr.save(rP);
+        
+        this.rr.save(rM);
         this.rr.save(rTL);
         this.rr.save(rS);
-        this.rr.save(rM);
+        this.rr.save(rP);
+        
         this.rm.save(m1);
         this.rm.save(m2);
         this.rm.save(m3);
