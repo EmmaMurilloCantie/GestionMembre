@@ -22,12 +22,13 @@ public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    public enum Roles{
-        Membre,
-        TeamLeader,
-        Secrétariat,
-        Président
-    };
+        public enum Roles{
+            Membre,
+            TeamLeader,
+            Secrétariat,
+            Président
+        };
+        
     private Roles titre;
 
     public Role(){}

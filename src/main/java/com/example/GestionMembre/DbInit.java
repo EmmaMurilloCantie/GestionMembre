@@ -39,11 +39,12 @@ public class DbInit implements CommandLineRunner {
         this.rr.deleteAll();
         this.rm.deleteAll();
         this.rem.deleteAll();
-
-        Role rP = new Role(Roles.Président);
+        
+        Role rM = new Role(Roles.Membre);
         Role rTL = new Role(Roles.TeamLeader);
         Role rS = new Role(Roles.Secrétariat);
-        Role rM = new Role(Roles.Membre);
+        Role rP = new Role(Roles.Président);
+        
         Membre m1 = new Membre("pasero","hugo","mail@mail","huto96","huto96","","add",rM);
         Membre m2 = new Membre("murillo-cantie","emma","mail2@mail2","mcEmma","mcEmma","","nenuphars",rS);
         Membre m3 = new Membre("roca","marie","mail3@mail3","rocaca","rocaca","","la vache",rP);
