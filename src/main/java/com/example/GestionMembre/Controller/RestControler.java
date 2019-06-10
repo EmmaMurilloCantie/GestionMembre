@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author emma
  */
 @RestController
-@RequestMapping("/membre")
 public class RestControler {
     @Autowired
     GestionMembre gm;
