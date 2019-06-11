@@ -12,7 +12,7 @@ import com.example.GestionMembre.Entities.Role.Roles;
 import com.example.GestionMembre.Repositories.RepoEnMarche;
 import com.example.GestionMembre.Repositories.RepoMembre;
 import com.example.GestionMembre.Repositories.RepoRole;
-import java.util.ArrayList;
+import java.util.Date;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -42,18 +42,19 @@ public class DbInit implements CommandLineRunner {
         
         Role rM = new Role(Roles.Membre);
         Role rTL = new Role(Roles.TeamLeader);
-        Role rS = new Role(Roles.Secrétariat);
-        Role rP = new Role(Roles.Président);
+        Role rS = new Role(Roles.Secretariat);
+        Role rP = new Role(Roles.President);
         
         Membre m1 = new Membre("pasero","hugo","mail@mail","huto96","huto96","","add",rM);
         Membre m2 = new Membre("murillo-cantie","emma","mail2@mail2","mcEmma","mcEmma","","nenuphars",rS);
         Membre m3 = new Membre("roca","marie","mail3@mail3","rocaca","rocaca","","la vache",rP);
-
+        m1.setDatecertif(new Date());
+        m2.setDatecertif(new Date());
+        m1.setNiveau(5);
+        m2.setNiveau(10);
+        m1.setMontant(200);
+        m2.setMontant(200);
         EnMarche em = new EnMarche(1000);
-
-        //ArrayList<Role> roles = new ArrayList<>();
-        //roles.add(rM);
-        //m1.setRole(roles);
         
         this.rr.save(rM);
         this.rr.save(rTL);

@@ -32,11 +32,12 @@ public class GestionMembre {
     @Autowired
     RepoRole rr;
     
-    /*
-    Créer un membre
-    @param membre 
-    On vérifie que le speudo n'est pas déjà utilisé
-    */
+    /**
+     * Permet à une personne de s'inscrire sur le site et de devenir membre
+     * @param membre objet membre 
+     * @return false -  si le login est déjà utilisé / le membre n'est pas créé
+     *         true  -  login unique / création du nouveau membre
+     */
     public boolean inscription (Membre membre){
         Iterator membres = rm.findAll().iterator();
         Membre mCourant = new Membre();
@@ -59,10 +60,11 @@ public class GestionMembre {
         
     }
     
-    /*
-    Modifier un membre
-    @param membre 
-    */
+    /**
+     * Permet à un membre de modifier les informations personnels de son profil
+     *  Nom; Prénom; Mail; Mdp; Adresse
+     * @param membre objet membre à modifier
+     */
     public void modifierM (Membre membre){
         Membre m = (Membre) rm.findById(membre.getId()).get();
         m.setNom(membre.getNom());
@@ -82,32 +84,33 @@ public class GestionMembre {
         rm.save(m);
     }
     
-    /*
-    Get de la liste des membres
-    @return Iterator 
-    */
+    /**
+     * Renvoie la liste des membres enregistrer dans la base
+     * @return Iterator : la liste des membres
+     */
     public Iterator membres (){
         Iterator membres = rm.findAll().iterator();
         return membres;
     }
     
-    /*
-    Get d'un membre
-    @param id d'un Membre
-    @return Membre 
-    */
+    /**
+     * Renvoie le membre qui correspond à l'ID en paramètre
+     * @param id Long : Id d'un membre
+     * @return Objet Membre
+     */
     public Membre membre (Long id){
         Membre m = (Membre) rm.findById(id).get();
         return m;
     }
     
-    /*
-    Connexion à son compte
-    @param pseudo
-    @param mdp
-    Vérifie le mdp et le pseudo
-    @return Membre 
-    */
+    /**
+     * Permet à l'utilisateur de se connecter et d'accéder à son compte
+     * on vérifie la correspondance du login / mdp
+     * @param pseudo : pseudo du membre
+     * @param mdp : mdp du membre
+     * @return objet Membre qui souhaite se connecter
+     *         / ou null si le mdp et/ou login erroné
+     */
     public Membre connexion (String pseudo, String mdp){
         Iterator membres = rm.findAll().iterator();
         Membre mCourant = new Membre();
@@ -123,10 +126,11 @@ public class GestionMembre {
         return null;
     }
     
-    /*
-    Valider le paiement
-    @param id d'un Membre
-    */
+    /**
+     * Valider le paiement
+     * @param id : id d'un membre 
+     * @return Date de validation de paiement
+     */
     public Date validerPaiement (Long id){
         Membre m = (Membre) rm.findById(id).get();
         Iterator enMarche = rem.findAll().iterator();
@@ -139,6 +143,7 @@ public class GestionMembre {
         rem.save(app);
         return m.getValidPaiement();
     }
+    
     
     public void invaliderPaiement (){
         Iterator enMarche = rem.findAll().iterator();
@@ -180,10 +185,19 @@ public class GestionMembre {
     }
     
     //STATISTIQUES
+    /**
+     * Compte le nombre de personnes inscrites
+     * @return int le nombre de personnes
+     */
     public int nbMembres(){
         return (int) rm.count();
     }
+    
     //STATISTIQUES
+    /**
+     * Compte le nombre de Team Leader 
+     * @return int le nombre de Team Leader
+     */
     public int nbTL(){
         Iterator membres = rm.findAll().iterator();
         int nbTL = 0;
@@ -200,7 +214,12 @@ public class GestionMembre {
         return nbTL;
         
     }
+    
     //STATISTIQUES
+    /**
+     * Calcule le montant des cottisations prévues
+     * @return float le montant des cottisations prévues
+     */
     public float montantCottisationsPrevues(){
         Iterator membres = rm.findAll().iterator();
         float montant = 0F;
@@ -213,7 +232,12 @@ public class GestionMembre {
         return montant;
         
     }
+    
     //STATISTIQUES
+    /**
+     * Calcule le montant des cottisations reglees
+     * @return float le montent des cottisations reglees
+     */
     public float montantCottisationReglees(){
         Iterator membres = rm.findAll().iterator();
         float montant = 0F;
@@ -226,12 +250,18 @@ public class GestionMembre {
         return montant;
         
     }
+    
     //RANDO GET TRESO
+    /***
+     * Récupère le montant de la trésorerie
+     * @return float trésorerie 
+     */
     public float treso (){
         Iterator enMarches = rem.findAll().iterator();
         EnMarche app = (EnMarche) enMarches.next();
         return app.getTresor();
     }
+    
     //RANDO PATCH TRESO
     public float mtreso (float debit){
         Iterator enMarches = rem.findAll().iterator();
@@ -249,51 +279,5 @@ public class GestionMembre {
         rm.save(m);
         return m.getDatecertif();
     }
-    
-    
-    /*public void inscription (String nom, String prenom, String mail, String pseudo, String mdp, String adresse){
-        Membre m = new Membre(nom, prenom, mail, pseudo, mdp, adresse);
-        rm.save(m);
-    }*/
-    
-    /*public void modifier (Long id, String nom, String prenom, String mail, String pseudo, String mdp, String adresse, float montant, Date date, int licence, float expertise){
-        Membre m = (Membre) rm.findById(id).get();
-        m.setNom(nom);
-        m.setPrenom(prenom);
-        m.setMail(mail);
-        //m.setPseudo(pseudo);
-        m.setMdp(mdp);
-        m.setAdresse(adresse);
-        m.setDatecertif(date);
-        m.setNumLicence(licence);
-        m.setNiveau(expertise);
-        m.setMontant(montant);
-        rm.save(m);
-    }*/
-    
-    /* public void validerCertificat (Long id, Date date){
-        Membre m = (Membre) rm.findById(id).get();
-        m.setDatecertif(date);
-        rm.save(m);
-    }
-    
-    public void validerLicence (Long id, int licence){
-        Membre m = (Membre) rm.findById(id).get();
-        m.setNumLicence(licence);
-        rm.save(m);
-    }
-    
-    public void validerExpertise (Long id, float expertise){
-        Membre m = (Membre) rm.findById(id).get();
-        m.setNiveau(expertise);
-        rm.save(m);
-    }
-    
-    public void payer (Long id, float montant){
-        Membre m = (Membre) rm.findById(id).get();
-        m.setMontant(montant);
-        rm.save(m);
-    }
-    */
     
 }

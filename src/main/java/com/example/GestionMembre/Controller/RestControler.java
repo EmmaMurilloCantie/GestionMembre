@@ -6,10 +6,14 @@
 package com.example.GestionMembre.Controller;
 
 import com.example.GestionMembre.Entities.Membre;
+import com.example.GestionMembre.Entities.Role;
+import com.example.GestionMembre.Entities.Role.Roles;
 import com.example.GestionMembre.Service.GestionMembre;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -88,21 +92,22 @@ public class RestControler {
     }
     
     //RANDO
-    @RequestMapping(value="/treso", method = RequestMethod.PATCH)
+    @RequestMapping(value="/treso/{debit}", method = RequestMethod.PUT)
     public float mTreso (@PathVariable float debit){
         return gm.mtreso(debit);
     }
     
     //RANDO
-    @RequestMapping(value="/niveau", method = RequestMethod.GET)
+    @RequestMapping(value="/niveau/{id}", method = RequestMethod.GET)
     public float niveau (@PathVariable Long id){
         return gm.membre(id).getNiveau();
     }
     
     //RANDO
-    @RequestMapping(value="/apte", method = RequestMethod.GET)
+    @RequestMapping(value="/apte/{id}", method = RequestMethod.GET)
     public boolean apte (@PathVariable Long id){
         Date date = gm.membre(id).getDatecertif();
+        System.out.println("com.example.GestionMembre.Controller.RestControler.apte()" + date);
         if (date == null){
             return false;
         }else{
@@ -110,68 +115,16 @@ public class RestControler {
         }
     }
     
-    /*//RANDO
-    @RequestMapping(value="/niveau", method = RequestMethod.GET)
-    public Date regle (@PathVariable Long id){
-        return gm.membre(id).getValidPaiement();
-    }*/
-    
-    // donner la treso ok
-    // modifier la tréso débiter / montant à débiter ok
-    // le niveau d'un membre / id  ok
-    // l'apte ou pas apte (certif) / id ok
-    // en regle (payer) / id 
-    // envoie des stats / encours budgetaire / total du coup des randos (CF/CV)
-    
-    
-    //@Todo
-    //GestionRando
-    // Get des coûts pour maj de la tréso 
-    // Est ce qu'on prévoit la modification des membres ?
-    // IBAN en base ?
-    // est ce que quelqu'un plus fort peut s'incrire ?
-    
-    
-    
-    /*//MEMBRE
-    @RequestMapping(value="/subscribe", method = RequestMethod.POST)
-    public void subscribe (@RequestBody Membre membreAcreer ){
-        gm.inscription(membreAcreer.getNom(), membreAcreer.getPrenom(), membreAcreer.getMail(), membreAcreer.getPseudo(), membreAcreer.getMdp(), membreAcreer.getAdresse());
-    }*/
-    
-    /*//MEMBRE
-    @RequestMapping(value="/payer/{id}", method = RequestMethod.PATCH)
-    public void payer (@PathVariable Long id, 
-            @RequestBody Membre membreMaJ){
-        gm.payer(id, montant);
-    }*/
-    
-    
-   /*//SECRETAIRE
-    @RequestMapping(value="/valider/payer/{id}", method = RequestMethod.GET)
-    public void validerPaiement (@PathVariable Long id){
-        gm.validerPaiement(id);
+    //RANDO
+    @RequestMapping(value="/role/{id}/{aRole}", method = RequestMethod.GET)
+    public boolean role (@PathVariable Long id, @PathVariable String aRole){
+        List<Role> roles = gm.membre(id).getRole();
+        for (Role role : roles){
+            if (role.getTitre().equals(Roles.valueOf(aRole))){
+                return true;
+            }        
+        }
+        return false;
     }
-    
-    //SECRETAIRE
-    @RequestMapping(value="/valider/certificat/{id}", method = RequestMethod.PATCH)
-    public void certificat (@PathVariable Long id,
-            @RequestBody Date date){
-        gm.validerCertificat(id, date);
-    }
-    
-    //SECRETAIRE
-    @RequestMapping(value="/valider/licence/{id}", method = RequestMethod.PATCH)
-    public void licence (@PathVariable Long id,
-            @RequestBody int licence){
-        gm.validerLicence(id, licence);
-    }
-    
-    //SECRETAIRE
-    @RequestMapping(value="/valider/expertise/{id}", method = RequestMethod.PATCH)
-    public void expertise (@PathVariable Long id,
-            @RequestBody float niveau){
-        gm.validerExpertise(id, niveau);
-    }*/
     
 }
