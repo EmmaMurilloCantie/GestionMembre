@@ -289,14 +289,13 @@ public class GestionMembre {
         return montant;
     }
 
-    //RANDO GET TRESO
+    //STATISTIQUES
     /**
-     * *
-     * Getter sur le solde de la trésorerie du club.
+     * En cours budgétaire du club de randonnée
      *
-     * @return Solde de la trésorerie
+     * @return En cours budgétaire du club
      */
-    public float treso() {
+    public float enCoursBudgetaire() {
         Iterator enMarches = rem.findAll().iterator();
         EnMarche app = (EnMarche) enMarches.next();
         return app.getTresor();

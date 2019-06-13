@@ -80,8 +80,8 @@ public class RestControler {
     
     //RANDO
     @RequestMapping(value="/treso", method = RequestMethod.GET)
-    public float treso (){
-        return gm.treso();
+    public float enCoursBudgetaire(){
+        return gm.enCoursBudgetaire();
     }
     
     //RANDO
