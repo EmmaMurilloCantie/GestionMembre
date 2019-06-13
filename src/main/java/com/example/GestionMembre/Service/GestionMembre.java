@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.GestionMembre.Service;
 
 import com.example.GestionMembre.Entities.EnMarche;
@@ -20,8 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
- * @author emma
+ * Classe permettant de gérer les membres du club comme décrit ci-dessous.
+ * La gestion des membres a pour but :
+ * Ø De laisser un membre s'inscrire sur la plateforme WEB
+ * Ø De laisser un membre s'acquitter de sa cottisation annuelle, le secrétaire valide le paiement
+ * Ø De laisser un membre fournir un certificat médical attestant qu'il est apte
+ * Ø De laisser le secrétaire gérer le niveau des membres
+ * Ø Le système de gestion des membres gère automatiquement la durée de validité des 
+ * certificats médicaux et la durée de validité des paiements
+ * Ø De laisser le président avoir accès aux statistiques propres aux membres
+ * Ø La trésorerie du club est géré dans Gestion Membre
+ * 
+ * @author Emma/Hugo/Marie
  */
 @Service
 public class GestionMembre {
@@ -33,8 +38,10 @@ public class GestionMembre {
     RepoRole rr;
     
     /**
-     * Permet à une personne de s'inscrire sur le site et de devenir membre
-     * @param membre objet membre 
+     * Création d'un membre au sein de l'application Va Marcher.
+     * Le futur membre a la possibilité de s'inscrire tout seul via l'interface WEB
+     * 
+     * @param membre Membre fournit par le front
      * @return false -  si le login est déjà utilisé / le membre n'est pas créé
      *         true  -  login unique / création du nouveau membre
      */
@@ -57,13 +64,13 @@ public class GestionMembre {
         membre.setRole(roles);
         rm.save(membre);
         return true;
-        
     }
     
     /**
-     * Permet à un membre de modifier les informations personnels de son profil
-     *  Nom; Prénom; Mail; Mdp; Adresse
-     * @param membre objet membre à modifier
+     * Méthode permettant à un membre de modifier les informations personnelles de son profil.
+     * Les données modifiables : Nom, Prénom, Mail, Mdp, Adresse
+     * 
+     * @param membre Membre à modifier
      */
     public void modifierM (Membre membre){
         Membre m = (Membre) rm.findById(membre.getId()).get();
@@ -85,8 +92,8 @@ public class GestionMembre {
     }
     
     /**
-     * Renvoie la liste des membres enregistrer dans la base
-     * @return Iterator : la liste des membres
+     * Renvoie la liste des membres enregistrés dans la base
+     * @return une liste des membres sous forme d'itérateur
      */
     public Iterator membres (){
         Iterator membres = rm.findAll().iterator();
@@ -95,8 +102,8 @@ public class GestionMembre {
     
     /**
      * Renvoie le membre qui correspond à l'ID en paramètre
-     * @param id Long : Id d'un membre
-     * @return Objet Membre
+     * @param id Identifiant d'un membre
+     * @return Membre
      */
     public Membre membre (Long id){
         Membre m = (Membre) rm.findById(id).get();
@@ -106,9 +113,9 @@ public class GestionMembre {
     /**
      * Permet à l'utilisateur de se connecter et d'accéder à son compte
      * on vérifie la correspondance du login / mdp
-     * @param pseudo : pseudo du membre
-     * @param mdp : mdp du membre
-     * @return objet Membre qui souhaite se connecter
+     * @param pseudo Pseudo du membre
+     * @param mdp Mdp du membre
+     * @return Membre qui souhaite se connecter
      *         / ou null si le mdp et/ou login erroné
      */
     public Membre connexion (String pseudo, String mdp){
@@ -127,8 +134,8 @@ public class GestionMembre {
     }
     
     /**
-     * Valider le paiement
-     * @param id : id d'un membre 
+     * Méthode permettant de valider le paiement
+     * @param id Identifiant d'un membre 
      * @return Date de validation de paiement
      */
     public Date validerPaiement (Long id){
@@ -144,7 +151,10 @@ public class GestionMembre {
         return m.getValidPaiement();
     }
     
-    
+    /**
+     * Méthode permettant d'invalider le paiement de tous les membres de Gestion Membre
+     * Cette méthode nous permet de gérer de manière autonome la durée de validité des paiements
+     */
     public void invaliderPaiement (){
         Iterator enMarche = rem.findAll().iterator();
         EnMarche app = null;
@@ -162,7 +172,22 @@ public class GestionMembre {
         rem.save(app);
     }
     
-    
+    /**
+     * Méthode permettant d'ajouter un rôle à un membre.
+     * Un membre peut avoir plusieurs rôles parmis ceux ci-après :
+     * Ø Membre,
+     * Ø TeamLeader,
+     * Ø Secretariat,
+     * Ø President
+     * 
+     * Ces rôles ont une notion d'ordonnancement :
+     * Membre &lt TeamLeader &lt Secrétariat &lt Président
+     * 
+     * @param membre Membre à qui ajouter le rôle
+     * @param r Rôle à ajouter
+     * @return Nouveau membre
+     * @see Role
+     */
     public Membre ajoutRole (Membre membre, Roles r){
         boolean estPresent = false;
         for(Role rCourant : membre.getRole()){
@@ -186,8 +211,10 @@ public class GestionMembre {
     
     //STATISTIQUES
     /**
-     * Compte le nombre de personnes inscrites
-     * @return int le nombre de personnes
+     * Méthode permettant de retourner le nombre de personnes inscrites, c'est-à-dire
+     * le nombre de membres du club.
+     * 
+     * @return Le nombre de membres du club
      */
     public int nbMembres(){
         return (int) rm.count();
@@ -195,8 +222,8 @@ public class GestionMembre {
     
     //STATISTIQUES
     /**
-     * Compte le nombre de Team Leader 
-     * @return int le nombre de Team Leader
+     * Méthode permettant de retourner le nombre de Team Leaders
+     * @return Le nombre de Team Leader
      */
     public int nbTL(){
         Iterator membres = rm.findAll().iterator();
@@ -217,8 +244,8 @@ public class GestionMembre {
     
     //STATISTIQUES
     /**
-     * Calcule le montant des cottisations prévues
-     * @return float le montant des cottisations prévues
+     * Méthode permettant de calculer le montant des cottisations prévues
+     * @return Le montant des cottisations prévues
      */
     public float montantCottisationsPrevues(){
         Iterator membres = rm.findAll().iterator();
@@ -235,8 +262,8 @@ public class GestionMembre {
     
     //STATISTIQUES
     /**
-     * Calcule le montant des cottisations reglees
-     * @return float le montent des cottisations reglees
+     * Méthode permettant de calculer le montant des cottisations reglées
+     * @return Le montant des cottisations reglées
      */
     public float montantCottisationReglees(){
         Iterator membres = rm.findAll().iterator();
@@ -253,8 +280,9 @@ public class GestionMembre {
     
     //RANDO GET TRESO
     /***
-     * Récupère le montant de la trésorerie
-     * @return float trésorerie 
+     * Getter sur le solde de la trésorerie du club.
+     * 
+     * @return Solde de la trésorerie 
      */
     public float treso (){
         Iterator enMarches = rem.findAll().iterator();
@@ -263,6 +291,12 @@ public class GestionMembre {
     }
     
     //RANDO PATCH TRESO
+    /**
+     * Méthode permettant de modifier (débiter) le solde de la trésorerie du club.
+     * 
+     * @param debit Montant à débiter au solde de la trésorerie du club
+     * @return Nouveau solde de la trésorerie
+     */
     public float mtreso (float debit){
         Iterator enMarches = rem.findAll().iterator();
         float montant = 0;
@@ -273,6 +307,13 @@ public class GestionMembre {
         return montant;
     }
     
+    /**
+     * Méthode permettant au secrétaire de valider le certificat médical d'un membre.
+     * Cette action n'est possible que par le Secrétaire : vérifié dans le front
+     * 
+     * @param id Identifiant du membre dont il faut valider le certificat médical
+     * @return La date de validation du certificat médical
+     */
     public Date validerCertif (Long id){
         Membre m = (Membre) rm.findById(id).get();
         m.setDatecertif(new Date());

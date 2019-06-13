@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.GestionMembre.Repositories;
 
 import com.example.GestionMembre.Entities.EnMarche;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- *
- * @author emma
+ * Repository pour la gestion de la trésorerie du club sur une application WEB
+ * @author Emma/Hugo/Marie
  */
 public interface RepoEnMarche extends CrudRepository<EnMarche, Long> {
     
