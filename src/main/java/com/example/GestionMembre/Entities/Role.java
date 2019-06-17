@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.GestionMembre.Entities;
 
 import java.io.Serializable;
@@ -12,8 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- *
- * @author emma
+ * Entity représentant notre objet Rôle d'un Membre du club
+ * 
+ * @author Emma/Hugo/Marie
  */
 @Entity
 public class Role implements Serializable {
@@ -22,36 +18,61 @@ public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-        
-        public enum Roles{
-            Membre,
-            TeamLeader,
-            Secretariat,
-            President
-        };
+    
+    /**
+     * Énumération des rôles d'un membre.
+     * 4 rôles possibles : 
+     * Ø Membre,
+     * Ø TeamLeader,
+     * Ø Secretariat,
+     * Ø President.
+     * 
+     */
+    public enum Roles{
+        Membre,
+        TeamLeader,
+        Secretariat,
+        President
+    };
         
     private Roles titre;
 
+    /**
+     * Constructeur vide
+     */
     public Role(){}
     
+    /**
+     * Contructeur d'un rôle d'un membre du club
+     * @param titre Titre du role
+     * @see Roles
+     */
     public Role(Roles titre) {
         this.titre = titre;
     }
 
+    /**
+     * Getter sur le titre du rôle d'un membre du club
+     * @return Titre du rôle d'un membre du club
+     */
     public Roles getTitre() {
         return titre;
     }
 
+    /**
+     * Setter sur le titre du rôle d'un membre du club
+     * @param titre Nouveau titre du rôle d'un membre du club
+     */
     public void setTitre(Roles titre) {
         this.titre = titre;
     }
 
+    /**
+     * Getter sur l'identifiant du rôle d'un membre du club
+     * @return Identifiant du rôle d'un membre du club
+     */
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     @Override

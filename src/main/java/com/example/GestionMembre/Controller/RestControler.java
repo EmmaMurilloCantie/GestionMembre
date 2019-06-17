@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.GestionMembre.Controller;
 
 import com.example.GestionMembre.Entities.Membre;
 import com.example.GestionMembre.Entities.Role;
 import com.example.GestionMembre.Entities.Role.Roles;
 import com.example.GestionMembre.Service.GestionMembre;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- *
- * @author emma
+ * Rest Controller pour la gestion des membres du club sur une application WEB.
+ * @author Emma/Hugo/Marie
  */
 @RestController
 public class RestControler {
@@ -87,8 +80,8 @@ public class RestControler {
     
     //RANDO
     @RequestMapping(value="/treso", method = RequestMethod.GET)
-    public float treso (){
-        return gm.treso();
+    public float enCoursBudgetaire(){
+        return gm.enCoursBudgetaire();
     }
     
     //RANDO

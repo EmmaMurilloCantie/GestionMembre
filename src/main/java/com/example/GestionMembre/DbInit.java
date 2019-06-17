@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.example.GestionMembre;
 
 import com.example.GestionMembre.Entities.EnMarche;
@@ -19,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 /**
  *
- * @author emma
+ * @author Emma/Hugo/Marie
  */
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
