@@ -92,8 +92,8 @@ public class RestControler {
     }
     
     //RANDO
-    @RequestMapping(value="/treso/{debit}", method = RequestMethod.PUT)
-    public float mTreso (@PathVariable float debit){
+    @RequestMapping(value="/treso/debit", method = RequestMethod.PUT)
+    public float mTreso (@RequestBody float debit){
         return gm.mtreso(debit);
     }
     
