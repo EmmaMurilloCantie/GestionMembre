@@ -75,6 +75,7 @@ public class RestControler {
         //TL en fonction de leur niveau
         stat.put("MtCottisationsPrevues", gm.montantCottisationsPrevues());
         stat.put("MtCottisationsReglees", gm.montantCottisationReglees());
+        stat.put("EnCoursBudgetaire", gm.enCoursBudgetaire());
         return stat;
     }
     
