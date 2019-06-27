@@ -6,7 +6,6 @@
     <class>GestionMembre.Entities.EnMarche</class>
     <class>GestionMembre.Entities.Membre</class>
     <class>GestionMembre.Entities.Role</class>
-    <class>com.example.GestionMembre.Entities.Adresse</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:8889/GestionMembre?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
