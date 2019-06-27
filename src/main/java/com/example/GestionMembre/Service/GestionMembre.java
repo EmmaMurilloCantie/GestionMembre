@@ -81,7 +81,7 @@ public class GestionMembre {
         //m.setPseudo(membre.getPseudo);
         m.setMdp(membre.getMdp());
         m.setVille(membre.getVille());
-        m.setVille(membre.getPays());
+        m.setPays(membre.getPays());
         m.setNumLicence(membre.getNumLicence());
         m.setNiveau(membre.getNiveau());
         m.setMontant(membre.getMontant());
